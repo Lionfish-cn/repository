@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.electric.business.dao.EnshrineMapper">
+  <resultMap id="BaseResultMap" type="com.electric.business.entity.Enshrine">
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <association property="goods" javaType="com.electric.business.entity.Goods">
+      <id column="ID" property="ID"></id>
+      <result column="goods_name" property="goodsName"></result>
+    </association>
+    <association property="enshrineUser" javaType="com.electric.business.entity.Customer">
+      <id column="ID" property="ID"></id>
+      <result column="username" property="username"></result>
+    </association>
+  </resultMap>
+  <select id="findByUsername" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select * from t_enshrine where enshrine_user = #{enshrineUser.ID,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="com.electric.business.entity.Enshrine">
+    insert into t_enshrine (ID, goods_id, enshrine_us
+      )
+    values (#{id,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR}, #{enshrineUs,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.electric.business.entity.Enshrine">
+    insert into t_enshrine
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="enshrineUs != null">
+        enshrine_us,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="enshrineUs != null">
+        #{enshrineUs,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateSelective" parameterType="com.electric.business.entity.Enshrine">
+    update t_enshrine set
+    <trim suffixOverrides=",">
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=VARCHAR}
+      </if>
+      <if test="enshrineUs != null">
+        enshrine_us = #{enshrineUs,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </update>
+  <delete id="delete">
+    delete from t_enshrine where id = #{id,jdbcType=VARCHAR}
+  </delete>
+</mapper>

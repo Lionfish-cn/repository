@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.electric.business.dao.GoodsMapper">
+  <resultMap id="BaseResultMap" type="com.electric.business.entity.Goods">
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="factory_name" jdbcType="VARCHAR" property="factoryName" />
+    <result column="goods_standard" jdbcType="VARCHAR" property="goodsStandard" />
+    <result column="goods_color" jdbcType="VARCHAR" property="goodsColor" />
+    <result column="stock_number" jdbcType="INTEGER" property="stockNumber" />
+    <result column="goods_describe" jdbcType="VARCHAR" property="goodsDescribe" />
+    <result column="goods_image" jdbcType="VARCHAR" property="goodsImage" />
+    <result column="goods_price" jdbcType="DOUBLE" property="goodsPrice" />
+    <result column="goods_sales" jdbcType="VARCHAR" property="goodsSales" />
+    <association property="categoryType" javaType="com.electric.business.entity.GoodsCategory">
+      <id property="id" column="id" javaType="java.lang.String"></id>
+      <result property="categoryName" column="category_name" javaType="java.lang.String"></result>
+    </association>
+  </resultMap>
+  <select id="findByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select * from t_goods where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="findList" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select * from t_goods where
+    <choose>
+      <when test="map.keys.size>0">
+        <foreach collection="map.keys" item="key" separator="AND">
+          ${key} = #{map[${key}]}
+        </foreach>
+      </when>
+      <otherwise>
+        1=1
+      </otherwise>
+    </choose>
+  </select>
+  <insert id="insert" parameterType="com.electric.business.entity.Goods">
+    insert into t_goods (ID, goods_name, goods_code, 
+      category_type, factory_name, goods_standard,
+      goods_color, stock_number, goods_describe,
+      goods_image, goods_price, goods_sales
+      )
+    values (#{id,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{goodsCode,jdbcType=VARCHAR}, 
+      #{categoryType.id,jdbcType=VARCHAR}, #{factoryName,jdbcType=VARCHAR}, #{goodsStandard,jdbcType=VARCHAR},
+      #{goodsColor,jdbcType=VARCHAR}, #{stockNumber,jdbcType=INTEGER}, #{goodsDescribe,jdbcType=VARCHAR},
+      #{goodsImage,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=DOUBLE}, #{goodsSales,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.electric.business.entity.Goods">
+    insert into t_goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="goodsCode != null">
+        goods_code,
+      </if>
+      <if test="categoryType != null">
+        category_type,
+      </if>
+      <if test="factoryName != null">
+        factory_name,
+      </if>
+      <if test="goodsStandard != null">
+        goods_standard,
+      </if>
+      <if test="goodsColor != null">
+        goods_color,
+      </if>
+      <if test="stockNumber != null">
+        stock_number,
+      </if>
+      <if test="goodsDescribe != null">
+        goods_describe,
+      </if>
+      <if test="goodsImage != null">
+        goods_image,
+      </if>
+      <if test="goodsPrice != null">
+        goods_price,
+      </if>
+      <if test="goodsSales != null">
+        goods_sales,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        #{goods_name,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCode != null">
+        #{goods_code,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryType != null">
+        #{category_type,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryName != null">
+        #{factory_name,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsStandard != null">
+        #{goods_standard,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsColor != null">
+        #{goods_color,jdbcType=VARCHAR},
+      </if>
+      <if test="stockNumber != null">
+        #{stock_number,jdbcType=INTEGER},
+      </if>
+      <if test="goodsDescribe != null">
+        #{goods_describe,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsImage != null">
+        #{goods_image,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null">
+        #{goods_price,jdbcType=DOUBLE},
+      </if>
+      <if test="goodsSales != null">
+        #{goods_sales,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateBySelective" parameterType="com.electric.business.entity.Goods">
+    update t_goods set
+    <trim suffixOverrides=",">
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCode != null">
+        goods_code = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryType != null">
+        category_type = #{categoryType.id,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryName != null">
+        factory_name = #{factoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsStandard != null">
+        goods_standard = #{goodsStandard,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsColor != null">
+        goods_color = #{goodsColor,jdbcType=VARCHAR},
+      </if>
+      <if test="stockNumber != null">
+        stock_number = #{stockNumber,jdbcType=INTEGER},
+      </if>
+      <if test="goodsDescribe != null">
+        goods_describe = #{goodsDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsImage != null">
+        goods_image = #{goodsImage,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null">
+        goods_price = #{goodsPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="goodsSales != null">
+        goods_sales = #{goodsSales,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </update>
+</mapper>

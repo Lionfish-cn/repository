@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.electric.business.dao.ShoppingCartMapper">
+  <resultMap id="BaseResultMap" type="com.electric.business.entity.ShoppingCart">
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="buy_number" jdbcType="INTEGER" property="buyNumber" />
+    <association property="goods" javaType="com.electric.business.entity.Goods">
+      <id column="ID" property="ID"></id>
+      <result column="goods_name" property="goodsName"></result>
+    </association>
+    <association property="addUser" javaType="com.electric.business.entity.Customer">
+      <id column="ID" property="ID"></id>
+      <result column="username" property="username"></result>
+    </association>
+  </resultMap>
+  <select id="findByUsername" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select * from t_shopping_cart where add_user = #{ID,jdbcType=VARCHAR}
+  </select>
+  <select id="findByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select * from t_shopping_cart where ID = #{ID,jdbcType = VARCHAR}
+  </select>
+  <insert id="insert" parameterType="com.electric.business.entity.ShoppingCart">
+    insert into t_shopping_cart (ID, goods_id, buy_number, 
+      add_user)
+    values (#{id,jdbcType=VARCHAR}, #{goods.ID,jdbcType=VARCHAR}, #{buyNumber,jdbcType=INTEGER},
+      #{addUser.ID,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.electric.business.entity.ShoppingCart">
+    insert into t_shopping_cart
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="buyNumber != null">
+        buy_number,
+      </if>
+      <if test="addUser != null">
+        add_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="buyNumber != null">
+        #{buyNumber,jdbcType=INTEGER},
+      </if>
+      <if test="addUser != null">
+        #{addUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <delete id="delete" parameterType="java.lang.String">
+    delete from t_shopping_cart where id = #{ID,jdbcType = VARCHAR}
+  </delete>
+</mapper>

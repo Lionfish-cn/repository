@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.electric.business.dao.GoodsOrderMapper">
+  <resultMap id="BaseResultMap" type="com.electric.business.entity.GoodsOrder">
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="order_status" jdbcType="VARCHAR" property="orderStatus" />
+    <result column="goods_buy_time" jdbcType="DATE" property="goodsBuyTime" />
+    <result column="goods_cancel" jdbcType="DATE" property="goodsCancel" />
+    <association property="goods" javaType="com.electric.business.entity.Goods">
+      <id column="ID" property="ID"></id>
+      <result column="goods_name" property="goodsName"></result>
+    </association>
+    <association property="goodsBuyUser" javaType="com.electric.business.entity.Customer">
+      <id column="ID" property="ID"></id>
+      <result column="username" property="username"></result>
+    </association>
+  </resultMap>
+  <select id="findByPrimaryKey" parameterType="java.lang.String">
+    select * from t_goods_order where ID = #{ID,jdbcType=VARCHAR}
+  </select>
+  <delete id="delete" parameterType="java.lang.String">
+    delete from t_goods_order where ID = #{ID,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.electric.business.entity.GoodsOrder">
+    insert into t_goods_order (ID, order_status, goods_id,
+      goods_buy_time, goods_cancel, goods_buy_user
+      )
+    values (#{id,jdbcType=VARCHAR}, #{orderStatus,jdbcType=VARCHAR}, #{goods.id,jdbcType=VARCHAR},
+      #{goodsBuyTime,jdbcType=DATE}, #{goodsCancel,jdbcType=DATE}, #{goodsBuyUser.id,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.electric.business.entity.GoodsOrder">
+    insert into t_goods_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="goodsBuyTime != null">
+        goods_buy_time,
+      </if>
+      <if test="goodsCancel != null">
+        goods_cancel,
+      </if>
+      <if test="goodsBuyUser != null">
+        goods_buy_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="goods != null">
+        #{goods.id,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsBuyTime != null">
+        #{goodsBuyTime,jdbcType=DATE},
+      </if>
+      <if test="goodsCancel != null">
+        #{goodsCancel,jdbcType=DATE},
+      </if>
+      <if test="goodsBuyUser != null">
+        #{goodsBuyUser.id,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateSelective" parameterType="com.electric.business.entity.GoodsOrder">
+    update into t_goods_order
+    <trim suffixOverrides=",">
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsBuyTime != null">
+        goods_buy_time =   #{goodsBuyTime,jdbcType=DATE},
+      </if>
+      <if test="goodsCancel != null">
+        goods_cancel =    #{goodsCancel,jdbcType=DATE},
+      </if>
+      <if test="goodsBuyUser != null">
+        goods_buy_user =  #{goodsBuyUser.id,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </update>
+</mapper>

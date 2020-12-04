@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.electric.business.dao.GoodsAppraisalMapper">
+  <resultMap id="BaseResultMap" type="com.electric.business.entity.GoodsAppraisal">
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="appraisal_content" jdbcType="VARCHAR" property="appraisalContent" />
+    <result column="appraisal_level" jdbcType="VARCHAR" property="appraisalLevel" />
+    <result column="appraisal_time" jdbcType="DATE" property="appraisalTime" />
+    <result column="appraisal_sign" jdbcType="VARCHAR" property="appraisalSign" />
+    <result column="appraisal_image" jdbcType="VARCHAR" property="appraisalImage" />
+    <association property="goods" javaType="com.electric.business.entity.Goods">
+      <id column="ID" property="ID"></id>
+      <result column="goods_name" property="goodsName"></result>
+    </association>
+  </resultMap>
+  <select id="findList" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select * from t_goods_appraisal where
+    <choose>
+      <when test="map.keys.size>0">
+        <foreach collection="map.keys" item="key" separator="AND">
+          ${key} = #{map[${key}]}
+        </foreach>
+      </when>
+      <otherwise>
+        1=1
+      </otherwise>
+    </choose>
+  </select>
+  <insert id="insert" parameterType="com.electric.business.entity.GoodsAppraisal">
+    insert into t_goods_appraisal (ID, goods_id, username, 
+      appraisal_content, appraisal_level, appraisal_time,
+      appraisal_sign, appraisal_image)
+    values (#{id,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{appraisalContent,jdbcType=VARCHAR}, #{appraisalLevel,jdbcType=VARCHAR}, #{appraisalTime,jdbcType=DATE},
+      #{appraisalSign,jdbcType=VARCHAR}, #{appraisalImage,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.electric.business.entity.GoodsAppraisal">
+    insert into t_goods_appraisal
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="appraisalContent != null">
+        appraisal_content,
+      </if>
+      <if test="appraisalLevel != null">
+        appraisal_level,
+      </if>
+      <if test="appraisalTime != null">
+        appraisal_time,
+      </if>
+      <if test="appraisalSign != null">
+        appraisal_sign,
+      </if>
+      <if test="appraisalImage != null">
+        appraisal_image,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="appraisalContent != null">
+        #{appraisalContent,jdbcType=VARCHAR},
+      </if>
+      <if test="appraisalLevel != null">
+        #{appraisalLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="appraisalTime != null">
+        #{appraisalTime,jdbcType=DATE},
+      </if>
+      <if test="appraisalSign != null">
+        #{appraisalSign,jdbcType=VARCHAR},
+      </if>
+      <if test="appraisalImage != null">
+        #{appraisalImage,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateSelective" parameterType="com.electric.business.entity.GoodsAppraisal">
+    update t_goods_appraisal set
+    <trim suffixOverrides=",">
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="appraisalContent != null">
+        appraisal_content = #{appraisalContent,jdbcType=VARCHAR},
+      </if>
+      <if test="appraisalLevel != null">
+        appraisal_level = #{appraisalLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="appraisalTime != null">
+        appraisal_time = #{appraisalTime,jdbcType=DATE},
+      </if>
+      <if test="appraisalSign != null">
+        appraisal_sign = #{appraisalSign,jdbcType=VARCHAR},
+      </if>
+      <if test="appraisalImage != null">
+        appraisal_image = #{appraisalImage,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </update>
+  <delete id="delete" parameterType="java.lang.String">
+        delete from t_goods_appraisal where id = #{id,jdbcType=VARCHAR}
+  </delete>
+</mapper>

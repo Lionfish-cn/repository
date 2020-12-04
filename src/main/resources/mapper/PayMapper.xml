@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.electric.business.dao.PayMapper">
+  <resultMap id="BaseResultMap" type="com.electric.business.entity.Pay">
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="pay_type" jdbcType="VARCHAR" property="payType" />
+    <result column="pay_account" jdbcType="VARCHAR" property="payAccount" />
+    <result column="pay_is_enable" jdbcType="INTEGER" property="payIsEnable" />
+    <result column="pay_order" jdbcType="INTEGER" property="payOrder" />
+    <association property="payUser" javaType="com.electric.business.entity.Customer">
+      <id column="ID" property="ID"></id>
+      <result column="username" property="username"></result>
+    </association>
+  </resultMap>
+  <select id="findByUsername" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select * from t_pay where pay_user = #{ID,jdbcType=VARCHAR}
+  </select>
+  <select id="findByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select * from t_pay where ID = #{ID,jdbcType = VARCHAR}
+  </select>
+
+  <select id="findList" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select * from t_pay where
+    <choose>
+      <when test="map.keys.size>0">
+        <foreach collection="map.keys" item="key" separator="AND">
+          ${key} = #{map[${key}]}
+        </foreach>
+      </when>
+      <otherwise>
+        1=1
+      </otherwise>
+    </choose>
+  </select>
+  <insert id="insert" parameterType="com.electric.business.entity.Customer">
+    insert into t_pay (ID, pay_type, pay_account,
+      pay_user, pay_is_enable,pay_order)
+    values (#{id,jdbcType=VARCHAR}, #{payType,jdbcType=VARCHAR}, #{payAccount,jdbcType=VARCHAR},
+      #{payUser.ID,jdbcType=VARCHAR}, #{payIsEnable,jdbcType=INTEGER}, #{payOrder,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.electric.business.entity.Customer">
+    insert into t_customer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null">
+        #{payType,jdbcType=VARCHAR}
+      </if>
+      <if test="payAccount != null">
+        #{payAccount,jdbcType=VARCHAR}
+      </if>
+      <if test="payUser != null">
+        #{payUser.ID,jdbcType=VARCHAR}
+      </if>
+      <if test="payIsEnable != null">
+        #{payIsEnable,jdbcType=INTEGER}
+      </if>
+      <if test="payOrder != null">
+        #{payOrder,jdbcType=INTEGER}
+      </if>
+    </trim>
+  </insert>
+</mapper>

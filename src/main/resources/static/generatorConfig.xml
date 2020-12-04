@@ -1,0 +1,43 @@
+<!--
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration  
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN">
+&lt;!&ndash;"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd"&ndash;&gt;
+
+&lt;!&ndash; 根据数据库自动生成mapping\entity\Idao &ndash;&gt;
+ <generatorConfiguration>
+ 	<classPathEntry location="D:\DevelopFile\toolkit\jar\mysql-connector-java-8.0.22.jar"></classPathEntry>
+ 	<context id="DB2Tables" targetRuntime="MyBatis3">
+ 		<commentGenerator>
+ 			<property name="suppressDate" value="true"></property>
+ 			<property name="suppressAllComments" value="true"></property>
+ 		</commentGenerator>
+ 		<jdbcConnection driverClass="com.mysql.cj.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/business?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=Asia/Shanghai" userId="root" password="password">
+ 		</jdbcConnection>
+ 		<javaTypeResolver>
+ 			<property name="forceBigDecimals" value="false"></property>
+ 		</javaTypeResolver>
+		&lt;!&ndash; 生成模型的包名和位置 &ndash;&gt;
+		<javaModelGenerator targetPackage="com.electric.business.entity" targetProject="src/main/java">
+			<property name="enableSubPackages" value="true"></property>
+			<property name="trimStrings" value="true"></property>
+		</javaModelGenerator> 		
+		&lt;!&ndash; 生成映射文件的包名和位置 &ndash;&gt;
+		<sqlMapGenerator targetProject="src/main/resources" targetPackage="mapper">
+			<property name="enableSubPackages" value="true"></property>
+		</sqlMapGenerator>
+		&lt;!&ndash; 生成Dao的包名和位置 &ndash;&gt;
+		<javaClientGenerator targetProject="src/main/java" type="XMLMAPPER" targetPackage="com.electric.business.dao">
+			<property name="enableSubPackages" value="true"></property>
+		</javaClientGenerator>
+		
+		&lt;!&ndash; 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名 &ndash;&gt;
+		<table tableName="t_customer" domainObjectName="Customer" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" ></table>
+		<table tableName="t_enshrine" domainObjectName="Enshrine" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" ></table>
+		<table tableName="t_goods" domainObjectName="Goods" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" ></table>
+		<table tableName="t_goods_appraisal" domainObjectName="GoodsAppraisal" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" ></table>
+		<table tableName="t_goods_category" domainObjectName="GoodsCategory" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" ></table>
+		<table tableName="t_goods_order" domainObjectName="GoodsOrder" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" ></table>
+		<table tableName="t_shopping_cart" domainObjectName="ShoppingCart" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" ></table>
+ 	</context>
+ </generatorConfiguration>-->
