@@ -1,4 +1,6 @@
 package com.electric.business.service;
 
-public interface IShoppingCartService {
+import com.electric.business.service.base.IBaseService;
+
+public interface IShoppingCartService  extends IBaseService {
 }

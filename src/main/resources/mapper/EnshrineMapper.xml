@@ -56,6 +56,7 @@
         enshrine_us = #{enshrineUs,jdbcType=VARCHAR}
       </if>
     </trim>
+    where ID = #{id,jdbcType=VARCHAR}
   </update>
   <delete id="delete">
     delete from t_enshrine where id = #{id,jdbcType=VARCHAR}

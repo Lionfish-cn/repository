@@ -4,6 +4,7 @@ import com.electric.business.entity.VerifyCodeBlackList;
 import com.electric.business.jpa.LetterCodeBlackListRepository;
 import com.electric.business.redis.util.RedisUtil;
 import com.electric.business.service.IVerifyCodeService;
+import com.electric.business.service.base.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ import java.util.Optional;
 import java.util.Random;
 
 @Service
-public class VerifyCodeServiceImpl implements IVerifyCodeService {
+public class VerifyCodeServiceImpl extends BaseServiceImpl implements IVerifyCodeService {
     private BufferedImage bi = null;
 
     public Graphics2D getGraphics2D() {

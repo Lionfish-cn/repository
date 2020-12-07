@@ -116,6 +116,7 @@
         appraisal_image = #{appraisalImage,jdbcType=VARCHAR}
       </if>
     </trim>
+    where ID = #{id,jdbcType=VARCHAR}
   </update>
   <delete id="delete" parameterType="java.lang.String">
         delete from t_goods_appraisal where id = #{id,jdbcType=VARCHAR}

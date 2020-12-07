@@ -162,5 +162,6 @@
         goods_sales = #{goodsSales,jdbcType=VARCHAR},
       </if>
     </trim>
+    where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

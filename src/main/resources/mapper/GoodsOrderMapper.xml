@@ -92,5 +92,6 @@
         goods_buy_user =  #{goodsBuyUser.id,jdbcType=VARCHAR}
       </if>
     </trim>
+    where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -39,22 +39,25 @@
       #{payUser.ID,jdbcType=VARCHAR}, #{payIsEnable,jdbcType=INTEGER}, #{payOrder,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.electric.business.entity.Customer">
-    insert into t_customer
+    insert into t_pay
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
       </if>
-      <if test="username != null">
-        username,
+      <if test="payType != null">
+        pay_type,
       </if>
-      <if test="password != null">
-        password,
+      <if test="payAccount != null">
+        pay_account,
       </if>
-      <if test="phone != null">
-        phone,
+      <if test="payUser != null">
+        pay_user,
       </if>
-      <if test="address != null">
-        address,
+      <if test="payIsEnable != null">
+        pay_is_enable,
+      </if>
+      <if test="payOrder != null">
+        pay_order,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -78,4 +81,26 @@
       </if>
     </trim>
   </insert>
+
+  <update id="updateSelective" parameterType="com.electric.business.entity.Pay">
+    update t_pay set
+    <trim suffixOverrides=",">
+      <if test="payType != null">
+        pay_type = #{payType,jdbcType=VARCHAR}
+      </if>
+      <if test="payAccount != null">
+        pay_account =  #{payAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="payUser != null">
+        pay_user = #{payUser.ID,jdbcType=VARCHAR},
+      </if>
+      <if test="payIsEnable != null">
+        pay_is_enable = #{payIsEnable,jdbcType=INTEGER},
+      </if>
+      <if test="payOrder != null">
+        pay_order = #{payOrder,jdbcType=INTEGER}
+      </if>
+    </trim>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
 </mapper>

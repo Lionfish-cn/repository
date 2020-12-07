@@ -1,5 +1,6 @@
 package com.electric.business.service.base;
 
+import com.electric.business.constants.Constants;
 import com.electric.business.dao.base.BaseMapper;
 import com.electric.business.entity.base.BaseEntity;
 import com.electric.business.loader.MapperInitiative;
@@ -13,9 +14,19 @@ import java.util.Map;
 public class BaseServiceImpl implements IBaseService {
     public final static Map<String, BaseMapper> mapper = MapperInitiative.myBatisMapper;
 
+
+    @Override
+    public String getModelName() {
+        String[] packages = this.getClass().getName().split("\\.");
+        String modelName = packages[packages.length-1].replaceAll("Service","").replaceAll("Impl","");
+        return Constants.ENTITY_BASE_PACKAGES + modelName;
+    }
+    
+    
+
     @Override
     public String save(BaseEntity baseEntity) {
-        String entityName = EntityUtil.getEntityName(baseEntity.getClass().getName());
+        String entityName = EntityUtil.getSimpleName(baseEntity.getClass().getName());
         BaseMapper baseMapper = mapper.get(entityName);
         int i = baseMapper.insertSelective(baseEntity);
         if (i > 0)
@@ -25,7 +36,7 @@ public class BaseServiceImpl implements IBaseService {
 
     @Override
     public String update(BaseEntity baseEntity) {
-        String entityName = EntityUtil.getEntityName(baseEntity.getClass().getName());
+        String entityName = EntityUtil.getSimpleName(baseEntity.getClass().getName());
         BaseMapper baseMapper = mapper.get(entityName);
         int i = baseMapper.updateBySelective(baseEntity);
         if (i > 0)
@@ -35,7 +46,7 @@ public class BaseServiceImpl implements IBaseService {
 
     @Override
     public String delete(BaseEntity baseEntity) {
-        String entityName = EntityUtil.getEntityName(baseEntity.getClass().getName());
+        String entityName = EntityUtil.getSimpleName(baseEntity.getClass().getName());
         BaseMapper baseMapper = mapper.get(entityName);
         int i = baseMapper.delete(baseEntity.getId());
         if (i > 0)
@@ -44,14 +55,13 @@ public class BaseServiceImpl implements IBaseService {
     }
 
     @Override
-    public List<BaseEntity> find(BaseEntity baseEntity, Map params) {
-        String entityName = EntityUtil.getEntityName(baseEntity.getClass().getName());
-        BaseMapper baseMapper = mapper.get(entityName);
+    public List<BaseEntity> find( Map params) {
+        BaseMapper baseMapper = mapper.get(EntityUtil.getSimpleName(getModelName()));
         return baseMapper.findList(params);
     }
 
     @Override
     public BaseEntity findByPrimaryKey(String id) {
-        return null;
+        return  mapper.get(EntityUtil.getSimpleName(getModelName())).findByPrimaryKey(id);
     }
 }

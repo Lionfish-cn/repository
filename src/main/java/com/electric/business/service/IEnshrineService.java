@@ -1,4 +1,6 @@
 package com.electric.business.service;
 
-public interface IEnshrineService {
+import com.electric.business.service.base.IBaseService;
+
+public interface IEnshrineService extends IBaseService {
 }

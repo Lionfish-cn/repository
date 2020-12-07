@@ -2,8 +2,8 @@ package com.electric.business.action;
 
 import com.electric.business.dao.CustomerMapper;
 import com.electric.business.entity.Customer;
+import com.electric.business.service.ICustomerService;
 import com.electric.business.service.IVerifyCodeService;
-import com.electric.business.service.base.IBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/customer")
 public class CustomerAction {
     @Autowired
-    private IBaseService baseService;
+    private ICustomerService customerService;
 
     @Autowired
     private IVerifyCodeService iVerifyCodeService;
@@ -29,7 +29,7 @@ public class CustomerAction {
     @RequestMapping("/register")
     public String register(HttpServletRequest request, @ModelAttribute Customer customer){
         customer.setPassword(DigestUtils.md5DigestAsHex(customer.getPassword().getBytes()));
-        return baseService.save(customer);
+        return customerService.save(customer);
     }
 
     @RequestMapping("/login")

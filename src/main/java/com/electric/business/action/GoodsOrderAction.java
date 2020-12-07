@@ -1,15 +1,12 @@
 package com.electric.business.action;
 
 import com.electric.business.dao.CustomerMapper;
-import com.electric.business.dao.GoodsOrderMapper;
-import com.electric.business.dao.ShoppingCartMapper;
 import com.electric.business.entity.Customer;
 import com.electric.business.entity.Goods;
 import com.electric.business.entity.GoodsOrder;
 import com.electric.business.entity.ShoppingCart;
 import com.electric.business.redis.util.RedisUtil;
 import com.electric.business.service.IGoodsService;
-import com.electric.business.service.base.IBaseService;
 import com.electric.business.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,14 +20,9 @@ import java.util.Date;
 
 @RestController
 public class GoodsOrderAction {
-    @Autowired
-    private IBaseService baseService;
-    @Resource
-    private GoodsOrderMapper goodsOrderMapper;
     @Resource
     private CustomerMapper customerMapper;
     @Resource
-    private ShoppingCartMapper shoppingCartMapper;
     @Autowired
     private IGoodsService goodsService;
 
@@ -52,9 +44,9 @@ public class GoodsOrderAction {
             price = price * d;
             go.setBuyPrice(price);
         }
-        baseService.save(go);
+        goodsService.save(go);
         //提交订单后，将移除购物车对应的内容
-        baseService.delete(shoppingCart);
+        goodsService.delete(shoppingCart);
         //占用库存
         goodsService.deductGoodsStock(goods,buyNum);
     }

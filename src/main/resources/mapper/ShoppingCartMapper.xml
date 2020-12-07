@@ -31,7 +31,7 @@
       <if test="id != null">
         ID,
       </if>
-      <if test="goodsId != null">
+      <if test="goods != null">
         goods_id,
       </if>
       <if test="buyNumber != null">
@@ -45,8 +45,8 @@
       <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="goodsId != null">
-        #{goodsId,jdbcType=VARCHAR},
+      <if test="goods != null">
+        #{goods.ID,jdbcType=VARCHAR},
       </if>
       <if test="buyNumber != null">
         #{buyNumber,jdbcType=INTEGER},

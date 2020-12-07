@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class EntityUtil {
 
-    public static String getEntityName(String bean) {
+    public static String getSimpleName(String bean) {
         String clzname = bean.substring(bean.lastIndexOf(".")+1);
         clzname = clzname.toLowerCase().charAt(0) + clzname.substring(1);
         return clzname;
