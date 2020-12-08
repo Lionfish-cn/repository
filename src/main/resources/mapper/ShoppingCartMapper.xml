@@ -4,26 +4,35 @@
   <resultMap id="BaseResultMap" type="com.electric.business.entity.ShoppingCart">
     <result column="ID" jdbcType="VARCHAR" property="id" />
     <result column="buy_number" jdbcType="INTEGER" property="buyNumber" />
-    <association property="goods" javaType="com.electric.business.entity.Goods">
-      <id column="ID" property="ID"></id>
-      <result column="goods_name" property="goodsName"></result>
+    <association property="goods" column="goods_id" javaType="com.electric.business.entity.Goods">
+      <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+      <result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
+      <result column="factory_name" jdbcType="VARCHAR" property="factoryName" />
+      <result column="goods_standard" jdbcType="VARCHAR" property="goodsStandard" />
+      <result column="goods_color" jdbcType="VARCHAR" property="goodsColor" />
+      <result column="stock_number" jdbcType="INTEGER" property="stockNumber" />
+      <result column="goods_describe" jdbcType="VARCHAR" property="goodsDescribe" />
+      <result column="goods_image" jdbcType="VARCHAR" property="goodsImage" />
+      <result column="goods_price" jdbcType="DOUBLE" property="goodsPrice" />
+      <result column="goods_sales" jdbcType="VARCHAR" property="goodsSales" />
     </association>
-    <association property="addUser" javaType="com.electric.business.entity.Customer">
-      <id column="ID" property="ID"></id>
-      <result column="username" property="username"></result>
+    <association property="addUser" column="add_user" javaType="com.electric.business.entity.Customer">
+      <result column="username" jdbcType="VARCHAR" property="username"/>
+      <result column="phone" jdbcType="VARCHAR" property="phone"/>
+      <result column="address" jdbcType="VARCHAR" property="address"/>
     </association>
   </resultMap>
-  <select id="findByUsername" resultMap="BaseResultMap" parameterType="java.lang.String">
-    select * from t_shopping_cart where add_user = #{ID,jdbcType=VARCHAR}
+  <select id="findCartsByUser" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select * from t_shopping_cart s inner join t_customer c  on s.add_user = c.id inner join t_goods g  on s.goods_id = g.id  where add_user = #{id,jdbcType=VARCHAR}
   </select>
   <select id="findByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
-    select * from t_shopping_cart where ID = #{ID,jdbcType = VARCHAR}
+    select * from t_shopping_cart s inner join t_customer c  on s.add_user = c.id inner join t_goods g  on s.goods_id = g.id where id = #{id,jdbcType = VARCHAR}
   </select>
   <insert id="insert" parameterType="com.electric.business.entity.ShoppingCart">
-    insert into t_shopping_cart (ID, goods_id, buy_number, 
+    insert into t_shopping_cart (ID, goods_id, buy_number,
       add_user)
-    values (#{id,jdbcType=VARCHAR}, #{goods.ID,jdbcType=VARCHAR}, #{buyNumber,jdbcType=INTEGER},
-      #{addUser.ID,jdbcType=VARCHAR})
+    values (#{id,jdbcType=VARCHAR}, #{goods.id,jdbcType=VARCHAR}, #{buyNumber,jdbcType=INTEGER},
+      #{addUser.id,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.electric.business.entity.ShoppingCart">
     insert into t_shopping_cart
@@ -41,23 +50,22 @@
         add_user,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
+    <trim  prefix="values(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
       <if test="goods != null">
-        #{goods.ID,jdbcType=VARCHAR},
+        #{goods.id,jdbcType=VARCHAR},
       </if>
       <if test="buyNumber != null">
         #{buyNumber,jdbcType=INTEGER},
       </if>
       <if test="addUser != null">
-        #{addUser,jdbcType=VARCHAR},
+        #{addUser.id,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-
   <delete id="delete" parameterType="java.lang.String">
-    delete from t_shopping_cart where id = #{ID,jdbcType = VARCHAR}
+    delete from t_shopping_cart where ID = #{id,jdbcType = VARCHAR}
   </delete>
 </mapper>

@@ -1,10 +1,13 @@
 package com.electric.business.service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.electric.business.entity.Goods;
 import com.electric.business.service.base.IBaseService;
 
-public interface IGoodsService extends IBaseService {
-    public void deductGoodsStock(Goods goods,Integer deductNum) throws Exception;
+import java.util.List;
 
-    public void addBackGoodsStock(Goods goods,Integer addBackNum) throws Exception;
+public interface IGoodsService extends IBaseService {
+    public void deductGoodsStock(JSONArray arrays) throws Exception;
+
+    public void addBackGoodsStock(JSONArray arrays) throws Exception;
 }

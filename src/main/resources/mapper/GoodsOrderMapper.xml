@@ -6,27 +6,28 @@
     <result column="order_status" jdbcType="VARCHAR" property="orderStatus" />
     <result column="goods_buy_time" jdbcType="DATE" property="goodsBuyTime" />
     <result column="goods_cancel" jdbcType="DATE" property="goodsCancel" />
+    <result column="goods_stock_relate" jdbcType="VARCHAR" property="goodsStockRelate"></result>
+    <result column="cancel_reason" jdbcType="VARCHAR" property="cancelReason"></result>
     <association property="goods" javaType="com.electric.business.entity.Goods">
-      <id column="ID" property="ID"></id>
       <result column="goods_name" property="goodsName"></result>
     </association>
     <association property="goodsBuyUser" javaType="com.electric.business.entity.Customer">
-      <id column="ID" property="ID"></id>
       <result column="username" property="username"></result>
     </association>
   </resultMap>
-  <select id="findByPrimaryKey" parameterType="java.lang.String">
-    select * from t_goods_order where ID = #{ID,jdbcType=VARCHAR}
+  <select id="findOrdersByUser" parameterType="java.lang.String">
+    select * from t_goods_order s inner join t_customer c  on s.add_user = c.id inner join t_goods g  on s.goods_id = g.id where ID = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="delete" parameterType="java.lang.String">
     delete from t_goods_order where ID = #{ID,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.electric.business.entity.GoodsOrder">
     insert into t_goods_order (ID, order_status, goods_id,
-      goods_buy_time, goods_cancel, goods_buy_user
+      goods_buy_time, goods_cancel, goods_buy_user,goods_stock_relate,cancel_reason
       )
     values (#{id,jdbcType=VARCHAR}, #{orderStatus,jdbcType=VARCHAR}, #{goods.id,jdbcType=VARCHAR},
-      #{goodsBuyTime,jdbcType=DATE}, #{goodsCancel,jdbcType=DATE}, #{goodsBuyUser.id,jdbcType=VARCHAR}
+      #{goodsBuyTime,jdbcType=DATE}, #{goodsCancel,jdbcType=DATE}, #{goodsBuyUser.id,jdbcType=VARCHAR},#{goodsStockRelate,jdbcType=VARCHAR}
+      ,#{cancelReason,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.electric.business.entity.GoodsOrder">
@@ -50,6 +51,14 @@
       <if test="goodsBuyUser != null">
         goods_buy_user,
       </if>
+      <if test="goodsStockRelate != null">
+        goods_stock_relate,
+      </if>
+      <if test="cancelReason != null">
+        cancel_reason,
+      </if>
+
+
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -70,6 +79,13 @@
       <if test="goodsBuyUser != null">
         #{goodsBuyUser.id,jdbcType=VARCHAR},
       </if>
+      <if test="goodsStockRelate != null">
+        #{goodsStockRelate,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelReason != null">
+        #{cancelReason,jdbcType=VARCHAR}
+      </if>
+
     </trim>
   </insert>
 
@@ -89,7 +105,13 @@
         goods_cancel =    #{goodsCancel,jdbcType=DATE},
       </if>
       <if test="goodsBuyUser != null">
-        goods_buy_user =  #{goodsBuyUser.id,jdbcType=VARCHAR}
+        goods_buy_user =  #{goodsBuyUser.id,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsStockRelate != null">
+        goods_stock_relate =  #{goodsStockRelate,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelReason != null">
+        cancel_reason =  #{cancelReason,jdbcType=VARCHAR}
       </if>
     </trim>
     where ID = #{id,jdbcType=VARCHAR}

@@ -45,17 +45,24 @@ public class BaseServiceImpl implements IBaseService {
     }
 
     @Override
-    public String delete(BaseEntity baseEntity) {
-        String entityName = EntityUtil.getSimpleName(baseEntity.getClass().getName());
+    public String delete(String id) {
+        String entityName = EntityUtil.getSimpleName(getModelName());
         BaseMapper baseMapper = mapper.get(entityName);
-        int i = baseMapper.delete(baseEntity.getId());
+        int i = baseMapper.delete(id);
         if (i > 0)
-            return baseEntity.getId();
+            return id;
         return null;
     }
 
     @Override
-    public List<BaseEntity> find( Map params) {
+    public void deleteAll(List<String> ids) {
+        for(String id : ids){
+            delete(id);
+        }
+    }
+
+    @Override
+    public List<BaseEntity> findList( Map params) {
         BaseMapper baseMapper = mapper.get(EntityUtil.getSimpleName(getModelName()));
         return baseMapper.findList(params);
     }

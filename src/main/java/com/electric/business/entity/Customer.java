@@ -2,6 +2,8 @@ package com.electric.business.entity;
 
 import com.electric.business.entity.base.BaseEntity;
 
+import java.util.List;
+
 public class Customer extends BaseEntity {
     private String username;
 
@@ -10,6 +12,10 @@ public class Customer extends BaseEntity {
     private String phone;
 
     private String address;
+
+    private String payPassword;
+
+    private List<Pay> pays;
 
     public String getUsername() {
         return username;
@@ -41,5 +47,21 @@ public class Customer extends BaseEntity {
 
     public void setAddress(String address) {
         this.address = address == null ? null : address.trim();
+    }
+
+    public String getPayPassword() {
+        return payPassword;
+    }
+
+    public void setPayPassword(String payPassword) {
+        this.payPassword = payPassword;
+    }
+
+    public List<Pay> getPays() {
+        return pays;
+    }
+
+    public void setPays(List<Pay> pays) {
+        this.pays = pays;
     }
 }

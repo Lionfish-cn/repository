@@ -7,10 +7,10 @@ import java.util.Map;
 
 public interface IBaseService {
     public abstract String getModelName();
-
     public String save(BaseEntity baseEntity);
     public String update(BaseEntity baseEntity);
-    public String delete(BaseEntity baseEntity);
-    public List<BaseEntity> find(Map params);
+    public String delete(String id);
+    public void deleteAll(List<String> ids);
+    public List<BaseEntity> findList(Map params);
     public BaseEntity findByPrimaryKey(String id);
 }

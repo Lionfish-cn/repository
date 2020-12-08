@@ -3,11 +3,12 @@ package com.electric.business.entity;
 import com.electric.business.entity.base.BaseEntity;
 
 import java.util.Date;
+import java.util.List;
 
 public class GoodsOrder extends BaseEntity {
-    private String orderStatus;
+    private Integer orderStatus;
 
-    private Goods goods;
+    private List<Goods> goods;
 
     private Date goodsBuyTime;
 
@@ -19,19 +20,23 @@ public class GoodsOrder extends BaseEntity {
 
     private Integer buyNumber;
 
-    public String getOrderStatus() {
+    private String goodsRelateNumber;
+
+    private String cancelReason;
+
+    public Integer getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(String orderStatus) {
-        this.orderStatus = orderStatus == null ? null : orderStatus.trim();
+    public void setOrderStatus(Integer orderStatus) {
+        this.orderStatus = orderStatus == null ? null : orderStatus;
     }
 
-    public Goods getGoods() {
+    public List<Goods> getGoods() {
         return goods;
     }
 
-    public void setGoods(Goods goods) {
+    public void setGoods(List<Goods> goods) {
         this.goods = goods == null ? null : goods;
     }
 
@@ -73,5 +78,21 @@ public class GoodsOrder extends BaseEntity {
 
     public void setBuyNumber(Integer buyNumber) {
         this.buyNumber = buyNumber;
+    }
+
+    public String getGoodsRelateNumber() {
+        return goodsRelateNumber;
+    }
+
+    public void setGoodsRelateNumber(String goodsRelateNumber) {
+        this.goodsRelateNumber = goodsRelateNumber;
+    }
+
+    public String getCancelReason() {
+        return cancelReason;
+    }
+
+    public void setCancelReason(String cancelReason) {
+        this.cancelReason = cancelReason;
     }
 }

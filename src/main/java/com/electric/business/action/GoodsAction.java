@@ -26,7 +26,7 @@ public class GoodsAction {
         try {
             String queryString = RequestUtil.getQueryString(request);
             Map<String,Object> params = ParseUtil.parseMapByQueryString(queryString);
-            return goodsService.find(params);
+            return goodsService.findList(params);
         } catch (Exception e) {
             e.printStackTrace();
         }

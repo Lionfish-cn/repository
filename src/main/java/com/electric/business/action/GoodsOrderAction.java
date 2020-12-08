@@ -1,78 +1,161 @@
 package com.electric.business.action;
 
-import com.electric.business.dao.CustomerMapper;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.electric.business.constants.EnumsConstans;
 import com.electric.business.entity.Customer;
 import com.electric.business.entity.Goods;
 import com.electric.business.entity.GoodsOrder;
 import com.electric.business.entity.ShoppingCart;
 import com.electric.business.redis.util.RedisUtil;
+import com.electric.business.service.ICustomerService;
+import com.electric.business.service.IGoodsOrderService;
 import com.electric.business.service.IGoodsService;
+import com.electric.business.service.IShoppingCartService;
 import com.electric.business.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
+import javax.persistence.RollbackException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @RestController
+@RequestMapping("/order")
 public class GoodsOrderAction {
-    @Resource
-    private CustomerMapper customerMapper;
-    @Resource
+    @Autowired
+    private IGoodsOrderService goodsOrderService;
     @Autowired
     private IGoodsService goodsService;
+    @Autowired
+    private IShoppingCartService shoppingCartService;
+    @Autowired
+    private ICustomerService customerService;
+    @RequestMapping("/sc")
+    @Transactional(rollbackFor = RollbackException.class)
+    public void payOrder(HttpServletRequest request) throws Exception {
+        if(!request.getMethod().equals("POST"))
+            return;
+        try {
+            String idxs = request.getParameter("ids");
+            String[] ids = idxs.split(";");
+            Double price = 0d;
+            int number = 0;
+            Customer customer = null;
+            List<Goods> arrGoods = new ArrayList<>();
+            List<String> arrShoppingCart = new ArrayList<>();
+            JSONArray arrays = new JSONArray();
+            for(String id : ids) {
+                ShoppingCart shoppingCart = (ShoppingCart) shoppingCartService.findByPrimaryKey(id);
+                int buyNum = shoppingCart.getBuyNumber();
+                Goods goods = shoppingCart.getGoods();
+                String sales = goods.getGoodsSales();
+                Double prices = buyNum * goods.getGoodsPrice();//计算
+                if(StringUtil.isNotNull(sales)){
+                    Double d = Double.parseDouble(sales);
+                    prices = prices * d;
+                }
+                price += prices;
+                number += buyNum;
+                customer = shoppingCart.getAddUser();
+                arrGoods.add(goods);
+                arrShoppingCart.add(shoppingCart.getId());
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("goodsid",goods.getId());
+                jsonObject.put("buynum",buyNum);
+                arrays.add(jsonObject);
+            }
 
-    @RequestMapping("/scTopay")
-    public void payOrder(HttpServletRequest request, HttpServletResponse response, @ModelAttribute ShoppingCart shoppingCart) throws Exception {
-        //TODO 还没有完成多个订单整合的，或后端整合或前端整合
-        int buyNum = shoppingCart.getBuyNumber();
-        Goods goods = shoppingCart.getGoods();
-        GoodsOrder go = new GoodsOrder();
-        go.setGoods(shoppingCart.getGoods());
-        go.setGoodsBuyTime(new Date());
-        go.setGoodsBuyUser(shoppingCart.getAddUser());
-        go.setOrderStatus("1");//1为未支付
-        go.setBuyNumber(buyNum);
-        String sales = goods.getGoodsSales();
-        if(StringUtil.isNotNull(sales)){
-            Double d = Double.parseDouble(sales);
-            Double price = buyNum * goods.getGoodsPrice();
-            price = price * d;
-            go.setBuyPrice(price);
+            GoodsOrder go = new GoodsOrder();
+            go.setGoods(arrGoods);
+            go.setGoodsBuyTime(new Date());
+            go.setGoodsBuyUser(customer);
+            go.setOrderStatus(EnumsConstans.UNPAID.ordinal());//1为未支付
+            go.setBuyNumber(number);
+            go.setGoodsRelateNumber(arrays.toJSONString());
+
+            goodsOrderService.save(go);
+            //提交订单后，将移除购物车对应的内容
+            goodsOrderService.deleteAll(arrShoppingCart);
+            //占用库存
+            goodsService.deductGoodsStock(arrays);
+        }catch (Exception e){
+            throw new RollbackException(e);
         }
-        goodsService.save(go);
-        //提交订单后，将移除购物车对应的内容
-        goodsService.delete(shoppingCart);
-        //占用库存
-        goodsService.deductGoodsStock(goods,buyNum);
     }
 
-    @RequestMapping("/goodsToPay")
-    public String payOrder(HttpServletRequest request, @ModelAttribute Goods goods) {
-        String id = request.getParameter("userid");
-        String num = request.getParameter("number");
-        Customer c = (Customer)customerMapper.findByPrimaryKey(id);
-        Integer n = Integer.parseInt(num);
+    @RequestMapping("/goods")
+    public String payOrder(HttpServletRequest request, @ModelAttribute Goods goods) throws Exception {
+        if(!request.getMethod().equals("POST"))
+            return null;
+        try {
+            String id = request.getParameter("userid");
+            String num = request.getParameter("number");
+            Customer c = (Customer)customerService.findByPrimaryKey(id);
+            Integer n = Integer.parseInt(num);
 
-        GoodsOrder go = new GoodsOrder();
-        go.setGoods(goods);
-        go.setGoodsBuyTime(new Date());
-        go.setGoodsBuyUser(c);
-        go.setOrderStatus("1");//1为未支付
-        go.setBuyNumber(n);
-        String sales = goods.getGoodsSales();
-        if(StringUtil.isNotNull(sales)){
-            Double d = Double.parseDouble(sales);
-            Double price = n * goods.getGoodsPrice();
-            price = price * d;
-            go.setBuyPrice(price);
+            JSONArray array = JSONArray.parseArray("[{'goodsid':'"+goods.getId()+"','buynum':'"+n+"'}]");
+            GoodsOrder go = new GoodsOrder();
+            go.setGoods(Arrays.asList(goods));
+            go.setGoodsBuyTime(new Date());
+            go.setGoodsBuyUser(c);
+            go.setOrderStatus(EnumsConstans.UNPAID.ordinal());//1为未支付
+            go.setGoodsRelateNumber(array.toJSONString());
+            go.setBuyNumber(n);
+            go.setGoodsRelateNumber(array.toJSONString());
+
+            String sales = goods.getGoodsSales();
+            if(StringUtil.isNotNull(sales)){
+                Double d = Double.parseDouble(sales);
+                Double price = n * goods.getGoodsPrice();
+                price = price * d;
+                go.setBuyPrice(price);
+            }
+
+            //设置订单超时时间
+            setOrderExpire(go.getId());
+            //占用库存
+            goodsService.deductGoodsStock(array);
+            //添加订单
+            goodsOrderService.save(go);
+            return go.getId();
+        }catch (Exception e){
+            e.printStackTrace();
+            return e.getStackTrace().toString();
         }
-        setOrderExpire(go.getId());
-        return go.getId();
+    }
+
+    @RequestMapping("/cancel")
+    public String cancelOrder(HttpServletRequest request){
+        if(!request.getMethod().equals("POST"))
+            return null;
+        try {
+            String id = request.getParameter("id");
+            if(StringUtil.isNotNull(id)) {
+                boolean flag = goodsOrderService.cancelOrder(id);
+                if(flag){
+                    return "success";
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return e.getStackTrace().toString();
+        }
+        return null;
+    }
+
+    @RequestMapping("/findOrders")
+    public List findOrders(HttpServletRequest request){
+        if(!request.getMethod().equals("POST"))
+            return null;
+        String id = request.getParameter("id");
+        return goodsOrderService.findOrdersByUser(id);
     }
 
     public void setOrderExpire(String id){

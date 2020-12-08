@@ -8,6 +8,7 @@ public class Pay extends BaseEntity {
     private Customer payUser;
     private Boolean payIsEnable;
     private Integer payOrder;
+    private Boolean isDefault;
 
     public String getPayType() {
         return payType;
@@ -47,5 +48,13 @@ public class Pay extends BaseEntity {
 
     public void setPayOrder(Integer payOrder) {
         this.payOrder = payOrder;
+    }
+
+    public Boolean getDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(Boolean aDefault) {
+        isDefault = aDefault;
     }
 }
