@@ -81,4 +81,15 @@ public class PayAction {
         }
         return null;
     }
+
+    public Boolean validIsEnough(HttpServletRequest request){
+        String t = request.getParameter("t");
+        if("alipay".equals(t)){//如果是支付宝
+
+        }else if("yl".equals(t)){//如果是银联
+
+        }
+        return false;
+    }
+
 }

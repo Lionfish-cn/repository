@@ -10,7 +10,7 @@ public interface IBaseService {
     public String save(BaseEntity baseEntity);
     public String update(BaseEntity baseEntity);
     public String delete(String id);
-    public void deleteAll(List<String> ids);
+    public void deleteAll(String[] ids);
     public List<BaseEntity> findList(Map params);
     public BaseEntity findByPrimaryKey(String id);
 }

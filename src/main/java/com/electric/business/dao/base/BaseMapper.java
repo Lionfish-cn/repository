@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface BaseMapper<T> {
     int insertSelective(BaseEntity record);
-    int updateBySelective(BaseEntity baseEntity);
+    int updateSelective(BaseEntity baseEntity);
     List<BaseEntity> findList(Map map);
     int delete(String id);
     BaseEntity findByPrimaryKey(String id);

@@ -15,13 +15,13 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping("/goods")
+@RequestMapping("/shoppingCart")
 public class ShoppingCartAction {
     @Autowired
     private IShoppingCartService shoppingCartService;
     @Autowired
     private ICustomerService customerService;
-    @RequestMapping("/addShoppingCart")
+    @RequestMapping("/add")
     public String addShoppingCart(HttpServletRequest request, @ModelAttribute Goods goods){
       try {
           String id = request.getParameter("userid");
@@ -38,7 +38,7 @@ public class ShoppingCartAction {
       }
     }
 
-    @RequestMapping("/findShoppingCart")
+    @RequestMapping("/find")
     public List findShoppingCart(HttpServletRequest request){
         try {
             String userid = request.getParameter("userid");
@@ -47,6 +47,13 @@ public class ShoppingCartAction {
             e.printStackTrace();
             return Arrays.asList(e.getStackTrace());
         }
+    }
+
+    @RequestMapping("/remove")
+    public void removeShoppingCart(HttpServletRequest request){
+        String idxs = request.getParameter("ids");
+
+        shoppingCartService.deleteAll(idxs.split(";"));
     }
 
 

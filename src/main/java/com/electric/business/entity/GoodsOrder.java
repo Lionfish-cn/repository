@@ -8,8 +8,6 @@ import java.util.List;
 public class GoodsOrder extends BaseEntity {
     private Integer orderStatus;
 
-    private List<Goods> goods;
-
     private Date goodsBuyTime;
 
     private Date goodsCancel;
@@ -30,14 +28,6 @@ public class GoodsOrder extends BaseEntity {
 
     public void setOrderStatus(Integer orderStatus) {
         this.orderStatus = orderStatus == null ? null : orderStatus;
-    }
-
-    public List<Goods> getGoods() {
-        return goods;
-    }
-
-    public void setGoods(List<Goods> goods) {
-        this.goods = goods == null ? null : goods;
     }
 
     public Date getGoodsBuyTime() {

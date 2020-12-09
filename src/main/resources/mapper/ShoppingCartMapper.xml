@@ -5,6 +5,7 @@
     <result column="ID" jdbcType="VARCHAR" property="id" />
     <result column="buy_number" jdbcType="INTEGER" property="buyNumber" />
     <association property="goods" column="goods_id" javaType="com.electric.business.entity.Goods">
+      <result column="goods_id" jdbcType="VARCHAR" property="id" />
       <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
       <result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
       <result column="factory_name" jdbcType="VARCHAR" property="factoryName" />
@@ -17,16 +18,17 @@
       <result column="goods_sales" jdbcType="VARCHAR" property="goodsSales" />
     </association>
     <association property="addUser" column="add_user" javaType="com.electric.business.entity.Customer">
+      <result column="add_user" jdbcType="VARCHAR" property="id"/>
       <result column="username" jdbcType="VARCHAR" property="username"/>
       <result column="phone" jdbcType="VARCHAR" property="phone"/>
       <result column="address" jdbcType="VARCHAR" property="address"/>
     </association>
   </resultMap>
   <select id="findCartsByUser" resultMap="BaseResultMap" parameterType="java.lang.String">
-    select * from t_shopping_cart s inner join t_customer c  on s.add_user = c.id inner join t_goods g  on s.goods_id = g.id  where add_user = #{id,jdbcType=VARCHAR}
+    select * from t_shopping_cart s inner join t_customer c  on s.add_user = c.id inner join t_goods g  on s.goods_id = g.id  where s.add_user = #{id,jdbcType=VARCHAR}
   </select>
   <select id="findByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
-    select * from t_shopping_cart s inner join t_customer c  on s.add_user = c.id inner join t_goods g  on s.goods_id = g.id where id = #{id,jdbcType = VARCHAR}
+    select * from t_shopping_cart s inner join t_customer c  on s.add_user = c.id inner join t_goods g  on s.goods_id = g.id where s.ID = #{id,jdbcType = VARCHAR}
   </select>
   <insert id="insert" parameterType="com.electric.business.entity.ShoppingCart">
     insert into t_shopping_cart (ID, goods_id, buy_number,

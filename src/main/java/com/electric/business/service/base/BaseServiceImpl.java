@@ -38,7 +38,7 @@ public class BaseServiceImpl implements IBaseService {
     public String update(BaseEntity baseEntity) {
         String entityName = EntityUtil.getSimpleName(baseEntity.getClass().getName());
         BaseMapper baseMapper = mapper.get(entityName);
-        int i = baseMapper.updateBySelective(baseEntity);
+        int i = baseMapper.updateSelective(baseEntity);
         if (i > 0)
             return baseEntity.getId();
         return null;
@@ -55,7 +55,7 @@ public class BaseServiceImpl implements IBaseService {
     }
 
     @Override
-    public void deleteAll(List<String> ids) {
+    public void deleteAll(String[] ids) {
         for(String id : ids){
             delete(id);
         }

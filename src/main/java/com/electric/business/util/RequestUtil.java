@@ -11,10 +11,12 @@ public class RequestUtil {
         while(enums.hasMoreElements()){
             String key = enums.nextElement();
             String value = request.getParameter(key);
-            if(StringUtil.isNotNull(queryString)){
-                queryString = queryString + "&" + key +"="+value;
-            }else{
-                queryString = key +"="+value;
+            if(StringUtil.isNotNull(value)){
+                if(StringUtil.isNotNull(queryString)){
+                    queryString = queryString + "&" + key +"="+value;
+                }else{
+                    queryString = key +"="+value;
+                }
             }
         }
         return queryString;
