@@ -13,5 +13,7 @@ public interface IBaseEntity {
      */
     public abstract void setId(String id);
 
+    public abstract String getInitID();
+
 
 }

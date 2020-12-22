@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.electric.business.dao.SystemAuthMapper">
+    <resultMap id="BaseResultMap" type="com.electric.business.entity.SystemAuth">
+        <result column="ID" jdbcType="VARCHAR" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="auth_url" jdbcType="VARCHAR" property="auth_url"/>
+        <result column="auth_permission" jdbcType="VARCHAR" property="authPermission"/>
+        <result column="auth_operate" jdbcType="VARCHAR" property="authOperate"/>
+        <result column="create_time" jdbcType="timestamp" property="createTime"/>
+        <result column="update_time" jdbcType="timestamp" property="updateTime"/>
+        <association property="roles" column="s_role" javaType="com.electric.business.entity.SystemRole">
+            <result column="s_role" jdbcType="VARCHAR" property="id"/>
+            <result column="name" jdbcType="VARCHAR" property="name"/>
+            <result column="description" jdbcType="VARCHAR" property="description"/>
+            <result column="update_time" jdbcType="timestamp" property="updateTime"/>
+            <result column="create_time" jdbcType="timestamp" property="createTime"/>
+        </association>
+    </resultMap>
+    <select id="getUsers" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select * from t_customer where ID = #{ID,jdbcType = VARCHAR}
+    </select>
+    
+    <select id="findByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select * from t_system_auth where ID = #{ID,jdbcType = VARCHAR}
+  </select>
+    <select id="findList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select * from t_system_auth where
+        <choose>
+            <when test="map.keys.size>0">
+                <foreach collection="map.keys" item="key" separator="AND">
+                    ${key} = #{map[${key}]}
+                </foreach>
+            </when>
+            <otherwise>
+                1=1
+            </otherwise>
+        </choose>
+    </select>
+    <insert id="insert" parameterType="com.electric.business.entity.Customer">
+    insert into t_system_auth (ID, name, description, 
+      auth_url, auth_permission,auth_operate,update_time,create_time)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{auth_url,jdbcType=VARCHAR}, #{auth_permission,jdbcType=VARCHAR},#{paydescription,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.electric.business.entity.Customer">
+        insert into t_system_auth
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="auth_url != null">
+                auth_url,
+            </if>
+            <if test="auth_permission != null">
+                auth_permission,
+            </if>
+            <if test="paydescription != null">
+                auth_operate
+            </if>
+            <if test="auth_permission != null">
+                auth_permission,
+            </if>
+            <if test="paydescription != null">
+                auth_operate
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="auth_url != null">
+                #{auth_url,jdbcType=VARCHAR},
+            </if>
+            <if test="auth_permission != null">
+                #{auth_permission,jdbcType=VARCHAR},
+            </if>
+            <if test="paydescription != null">
+                #{paydescription,jdbcType=VARCHAR}
+            </if>
+
+        </trim>
+    </insert>
+    <update id="updateSelective" parameterType="com.electric.business.entity.Customer">
+        update t_system_auth set
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                ID = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR}
+            </if>
+            <if test="auth_url != null">
+                auth_url = #{auth_url,jdbcType=VARCHAR}
+            </if>
+            <if test="auth_permission != null">
+                auth_permission = #{auth_permission,jdbcType=VARCHAR}
+            </if>
+            <if test="paydescription != null">
+                auth_operate = #{paydescription,jdbcType=VARCHAR}
+            </if>
+        </trim>
+        where ID = #{id,jdbcType=VARCHAR}
+    </update>
+    <delete id="delete">
+     delete from t_system_auth where id = #{id,jdbcType=VARCHAR}
+  </delete>
+</mapper>

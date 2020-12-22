@@ -1,6 +1,8 @@
 package com.electric.business.action;
 
 import com.electric.business.entity.Goods;
+import com.electric.business.entity.GoodsCategory;
+import com.electric.business.service.IGoodsCategoryService;
 import com.electric.business.service.IGoodsService;
 import com.electric.business.util.ParseUtil;
 import com.electric.business.util.RequestUtil;
@@ -24,8 +26,7 @@ public class GoodsAction {
         if (!request.getMethod().equals("POST"))
             return null;
         try {
-            String queryString = RequestUtil.getQueryString(request);
-            Map<String,Object> params = ParseUtil.parseMapByQueryString(queryString);
+            Map<String,Object> params = RequestUtil.getQueryString(request);
             return goodsService.findList(params);
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,6 +44,23 @@ public class GoodsAction {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "添加成功，id为：" + id;
+        return id;
+    }
+    @Autowired
+    private IGoodsCategoryService goodsCategoryService;
+
+    @RequestMapping("/v")
+    public Goods toGoods(HttpServletRequest request){
+       try {
+           String id = request.getParameter("categoryid");
+           GoodsCategory gc = (GoodsCategory) goodsCategoryService.findByPrimaryKey(id);
+           Goods goods = new Goods();
+           goods.setCategoryType(gc);
+           goods.setGoodsName(gc.getCategoryName());
+           return goods;
+       }catch (Exception e){
+           e.printStackTrace();
+       }
+       return null;
     }
 }

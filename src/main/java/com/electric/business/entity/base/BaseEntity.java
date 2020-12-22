@@ -19,5 +19,10 @@ public abstract class BaseEntity implements IBaseEntity,Serializable {
     public void setId(String id) {
         this.id = id;
     }
+
+    @Override
+    public String getInitID() {
+        return id;
+    }
 }
 

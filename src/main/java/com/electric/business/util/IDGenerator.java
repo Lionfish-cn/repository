@@ -13,4 +13,11 @@ public class IDGenerator {
         hex = hex.replaceAll("-","");
         return hex.substring(0,32);
     }
+
+    public static String generateIndexID(){
+        String hex = Long.toHexString(System.currentTimeMillis());
+        hex += UUID.randomUUID();
+        hex = hex.replaceAll("-","");
+        return hex.substring(0,20);
+    }
 }

@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping("/shoppingCart")
+@RequestMapping("/api/shoppingCart")
 public class ShoppingCartAction {
     @Autowired
     private IShoppingCartService shoppingCartService;
@@ -52,9 +52,7 @@ public class ShoppingCartAction {
     @RequestMapping("/remove")
     public void removeShoppingCart(HttpServletRequest request){
         String idxs = request.getParameter("ids");
-
         shoppingCartService.deleteAll(idxs.split(";"));
     }
-
 
 }

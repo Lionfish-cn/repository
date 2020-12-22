@@ -2,6 +2,8 @@ package com.electric.business.entity;
 
 import com.electric.business.entity.base.BaseEntity;
 
+import java.util.Date;
+
 public class Goods  extends BaseEntity {
 
     private String goodsName;
@@ -25,6 +27,16 @@ public class Goods  extends BaseEntity {
     private Double goodsPrice;
 
     private String goodsSales;
+
+    /**
+     *创建时间
+     */
+    private Date createTime;
+
+    /**
+     * 下架时间
+     */
+    private Date offShelfTime;
 
     public String getGoodsName() {
         return goodsName;
@@ -112,5 +124,21 @@ public class Goods  extends BaseEntity {
 
     public void setGoodsSales(String goodsSales) {
         this.goodsSales = goodsSales == null ? null : goodsSales.trim();
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getOffShelfTime() {
+        return offShelfTime;
+    }
+
+    public void setOffShelfTime(Date offShelfTime) {
+        this.offShelfTime = offShelfTime;
     }
 }
