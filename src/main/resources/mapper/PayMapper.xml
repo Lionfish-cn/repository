@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.electric.business.dao.PayMapper">
-  <resultMap id="BaseResultMap" type="com.electric.business.entity.Pay">
+<mapper namespace="com.code.repository.dao.PayMapper">
+  <resultMap id="BaseResultMap" type="com.code.repository.entity.Pay">
     <result column="ID" jdbcType="VARCHAR" property="id" />
     <result column="pay_type" jdbcType="VARCHAR" property="payType" />
     <result column="pay_account" jdbcType="VARCHAR" property="payAccount" />
     <result column="pay_is_enable" jdbcType="INTEGER" property="payIsEnable" />
     <result column="pay_order" jdbcType="INTEGER" property="payOrder" />
     <result column="is_default" jdbcType="INTEGER" property="isDefault" />
-    <association property="payUser" javaType="com.electric.business.entity.Customer">
+    <association property="payUser" javaType="com.code.repository.entity.Customer">
       <id column="ID" property="ID"></id>
       <result column="username" property="username"></result>
     </association>
@@ -29,13 +29,13 @@
       </otherwise>
     </choose>
   </select>
-  <insert id="insert" parameterType="com.electric.business.entity.Customer">
+  <insert id="insert" parameterType="com.code.repository.entity.Customer">
     insert into t_pay (ID, pay_type, pay_account,
       pay_user, pay_is_enable,pay_order)
     values (#{id,jdbcType=VARCHAR}, #{payType,jdbcType=VARCHAR}, #{payAccount,jdbcType=VARCHAR},
       #{payUser.ID,jdbcType=VARCHAR}, #{payIsEnable,jdbcType=INTEGER}, #{payOrder,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.electric.business.entity.Customer">
+  <insert id="insertSelective" parameterType="com.code.repository.entity.Customer">
     insert into t_pay
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -85,7 +85,7 @@
     </trim>
   </insert>
 
-  <update id="updateSelective" parameterType="com.electric.business.entity.Pay">
+  <update id="updateSelective" parameterType="com.code.repository.entity.Pay">
     update t_pay set
     <trim suffixOverrides=",">
       <if test="payType != null">

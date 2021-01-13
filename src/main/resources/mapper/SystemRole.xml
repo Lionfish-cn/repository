@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.electric.business.dao.SystemRoleMapper">
-    <resultMap id="BaseResultMap" type="com.electric.business.entity.SystemRole">
+<mapper namespace="com.code.repository.dao.SystemRoleMapper">
+    <resultMap id="BaseResultMap" type="com.code.repository.entity.SystemRole">
         <result column="ID" jdbcType="VARCHAR" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="description" jdbcType="VARCHAR" property="description"/>
@@ -25,13 +25,13 @@
             </otherwise>
         </choose>
     </select>
-    <insert id="insert" parameterType="com.electric.business.entity.Customer">
+    <insert id="insert" parameterType="com.code.repository.entity.Customer">
     insert into t_system_role (ID, name, description,
       update_time, create_time)
     values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},#{payPassword,jdbcType=VARCHAR})
   </insert>
-    <insert id="insertSelective" parameterType="com.electric.business.entity.Customer">
+    <insert id="insertSelective" parameterType="com.code.repository.entity.Customer">
         insert into t_system_role
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -76,7 +76,7 @@
 
         </trim>
     </insert>
-    <update id="updateSelective" parameterType="com.electric.business.entity.Customer">
+    <update id="updateSelective" parameterType="com.code.repository.entity.Customer">
         update t_system_role set
         <trim suffixOverrides=",">
             <if test="id != null">

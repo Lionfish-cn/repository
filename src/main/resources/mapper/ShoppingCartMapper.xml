@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.electric.business.dao.ShoppingCartMapper">
-  <resultMap id="BaseResultMap" type="com.electric.business.entity.ShoppingCart">
+<mapper namespace="com.code.repository.dao.ShoppingCartMapper">
+  <resultMap id="BaseResultMap" type="com.code.repository.entity.ShoppingCart">
     <result column="ID" jdbcType="VARCHAR" property="id" />
     <result column="buy_number" jdbcType="INTEGER" property="buyNumber" />
-    <association property="goods" column="goods_id" javaType="com.electric.business.entity.Goods">
+    <association property="goods" column="goods_id" javaType="com.code.repository.entity.Goods">
       <result column="goods_id" jdbcType="VARCHAR" property="id" />
       <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
       <result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
@@ -17,7 +17,7 @@
       <result column="goods_price" jdbcType="DOUBLE" property="goodsPrice" />
       <result column="goods_sales" jdbcType="VARCHAR" property="goodsSales" />
     </association>
-    <association property="addUser" column="add_user" javaType="com.electric.business.entity.Customer">
+    <association property="addUser" column="add_user" javaType="com.code.repository.entity.Customer">
       <result column="add_user" jdbcType="VARCHAR" property="id"/>
       <result column="username" jdbcType="VARCHAR" property="username"/>
       <result column="phone" jdbcType="VARCHAR" property="phone"/>
@@ -30,13 +30,13 @@
   <select id="findByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
     select * from t_shopping_cart s inner join t_customer c  on s.add_user = c.id inner join t_goods g  on s.goods_id = g.id where s.ID = #{id,jdbcType = VARCHAR}
   </select>
-  <insert id="insert" parameterType="com.electric.business.entity.ShoppingCart">
+  <insert id="insert" parameterType="com.code.repository.entity.ShoppingCart">
     insert into t_shopping_cart (ID, goods_id, buy_number,
       add_user)
     values (#{id,jdbcType=VARCHAR}, #{goods.id,jdbcType=VARCHAR}, #{buyNumber,jdbcType=INTEGER},
       #{addUser.id,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.electric.business.entity.ShoppingCart">
+  <insert id="insertSelective" parameterType="com.code.repository.entity.ShoppingCart">
     insert into t_shopping_cart
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

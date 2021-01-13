@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.electric.business.dao.DataConnectPoolMapper">
-    <resultMap id="BaseResultMap" type="com.electric.business.entity.DataConnectPool">
+<mapper namespace="com.code.repository.dao.DataConnectPoolMapper">
+    <resultMap id="BaseResultMap" type="com.code.repository.entity.DataConnectPool">
         <result column="ID" jdbcType="VARCHAR" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="type" jdbcType="VARCHAR" property="type"/>
@@ -31,13 +31,13 @@
             </otherwise>
         </choose>
     </select>
-    <insert id="insert" parameterType="com.electric.business.entity.Customer">
+    <insert id="insert" parameterType="com.code.repository.entity.Customer">
     insert into t_dataconnect_pool (ID, username, password, 
       phone, address,pay_password)
     values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},#{payPassword,jdbcType=VARCHAR})
   </insert>
-    <insert id="insertSelective" parameterType="com.electric.business.entity.Customer">
+    <insert id="insertSelective" parameterType="com.code.repository.entity.Customer">
         insert into t_dataconnect_pool
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -82,7 +82,7 @@
 
         </trim>
     </insert>
-    <update id="updateSelective" parameterType="com.electric.business.entity.Customer">
+    <update id="updateSelective" parameterType="com.code.repository.entity.Customer">
         update t_dataconnect_pool set
         <trim suffixOverrides=",">
             <if test="id != null">

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.electric.business.dao.GoodsAppraisalMapper">
-  <resultMap id="BaseResultMap" type="com.electric.business.entity.GoodsAppraisal">
+<mapper namespace="com.code.repository.dao.GoodsAppraisalMapper">
+  <resultMap id="BaseResultMap" type="com.code.repository.entity.GoodsAppraisal">
     <result column="ID" jdbcType="VARCHAR" property="id" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="appraisal_content" jdbcType="VARCHAR" property="appraisalContent" />
@@ -9,7 +9,7 @@
     <result column="appraisal_time" jdbcType="DATE" property="appraisalTime" />
     <result column="appraisal_sign" jdbcType="VARCHAR" property="appraisalSign" />
     <result column="appraisal_image" jdbcType="VARCHAR" property="appraisalImage" />
-    <association property="goods" javaType="com.electric.business.entity.Goods">
+    <association property="goods" javaType="com.code.repository.entity.Goods">
       <id column="ID" property="ID"></id>
       <result column="goods_name" property="goodsName"></result>
     </association>
@@ -27,7 +27,7 @@
       </otherwise>
     </choose>
   </select>
-  <insert id="insert" parameterType="com.electric.business.entity.GoodsAppraisal">
+  <insert id="insert" parameterType="com.code.repository.entity.GoodsAppraisal">
     insert into t_goods_appraisal (ID, goods_id, username, 
       appraisal_content, appraisal_level, appraisal_time,
       appraisal_sign, appraisal_image)
@@ -35,7 +35,7 @@
       #{appraisalContent,jdbcType=VARCHAR}, #{appraisalLevel,jdbcType=VARCHAR}, #{appraisalTime,jdbcType=DATE},
       #{appraisalSign,jdbcType=VARCHAR}, #{appraisalImage,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.electric.business.entity.GoodsAppraisal">
+  <insert id="insertSelective" parameterType="com.code.repository.entity.GoodsAppraisal">
     insert into t_goods_appraisal
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -91,7 +91,7 @@
     </trim>
   </insert>
 
-  <update id="updateSelective" parameterType="com.electric.business.entity.GoodsAppraisal">
+  <update id="updateSelective" parameterType="com.code.repository.entity.GoodsAppraisal">
     update t_goods_appraisal set
     <trim suffixOverrides=",">
       <if test="goodsId != null">

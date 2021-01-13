@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.electric.business.dao.GoodsOrderMapper">
-  <resultMap id="BaseResultMap" type="com.electric.business.entity.GoodsOrder">
+<mapper namespace="com.code.repository.dao.GoodsOrderMapper">
+  <resultMap id="BaseResultMap" type="com.code.repository.entity.GoodsOrder">
     <result column="ID" jdbcType="VARCHAR" property="id" />
     <result column="order_status" jdbcType="VARCHAR" property="orderStatus" />
     <result column="goods_buy_time" jdbcType="DATE" property="goodsBuyTime" />
     <result column="goods_cancel" jdbcType="DATE" property="goodsCancel" />
     <result column="goods_relate_number" jdbcType="VARCHAR" property="goodsRelateNumber"></result>
     <result column="cancel_reason" jdbcType="VARCHAR" property="cancelReason"></result>
-    <association property="goodsBuyUser" javaType="com.electric.business.entity.Customer">
+    <association property="goodsBuyUser" javaType="com.code.repository.entity.Customer">
       <result column="goods_buy_user" property="id"></result>
       <result column="username" property="username"></result>
     </association>
@@ -24,7 +24,7 @@
   <delete id="delete" parameterType="java.lang.String">
     delete from t_goods_order where ID = #{ID,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.electric.business.entity.GoodsOrder">
+  <insert id="insert" parameterType="com.code.repository.entity.GoodsOrder">
     insert into t_goods_order (ID, order_status,
       goods_buy_time, goods_cancel, goods_buy_user,goods_relate_number,cancel_reason
       )
@@ -33,7 +33,7 @@
       ,#{cancelReason,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.electric.business.entity.GoodsOrder">
+  <insert id="insertSelective" parameterType="com.code.repository.entity.GoodsOrder">
     insert into t_goods_order
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -84,7 +84,7 @@
     </trim>
   </insert>
 
-  <update id="updateSelective" parameterType="com.electric.business.entity.GoodsOrder">
+  <update id="updateSelective" parameterType="com.code.repository.entity.GoodsOrder">
     update t_goods_order set
     <trim suffixOverrides=",">
       <if test="orderStatus != null">
