@@ -5,8 +5,8 @@
         <result column="ID" jdbcType="VARCHAR" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="description" jdbcType="VARCHAR" property="description"/>
-        <result column="create_time" jdbcType="timestamp" property="createTime"/>
-        <result column="update_time" jdbcType="timestamp" property="updateTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
 
     <select id="findByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">

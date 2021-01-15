@@ -3,7 +3,6 @@ package com.code.repository.action;
 import com.code.repository.dao.CustomerMapper;
 import com.code.repository.entity.Customer;
 import com.code.repository.service.IVerifyCodeService;
-import com.code.repository.util.JwtUtil;
 import com.code.repository.util.ResponseUtil;
 import com.code.repository.service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 public class CustomerAction {
     @Autowired
     private ICustomerService customerService;
-
-    @Autowired
-    private IVerifyCodeService iVerifyCodeService;
 
     @Resource
     private CustomerMapper customerMapper;
@@ -45,7 +41,7 @@ public class CustomerAction {
         if (c != null) {
             String password = c.getPassword();
             if (md5p.equals(password)) {
-                message = ResponseUtil.loginResponseOk("登录成功", JwtUtil.generateToken(u));
+                message = ResponseUtil.responseOk("登录成功",null);
             } else {
                 message = "登录失败，账号密码不匹配";
             }

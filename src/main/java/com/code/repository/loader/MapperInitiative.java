@@ -2,7 +2,6 @@ package com.code.repository.loader;
 
 import com.code.repository.dao.*;
 import com.code.repository.dao.base.BaseMapper;
-import com.electric.business.dao.*;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;

@@ -6,13 +6,13 @@
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="type" jdbcType="VARCHAR" property="type"/>
         <result column="driver_classname" jdbcType="VARCHAR" property="driverClassname"/>
-        <result column="port" jdbcType="INT" property="port"/>
+        <result column="port" jdbcType="INTEGER" property="port"/>
         <result column="host" jdbcType="VARCHAR" property="host"/>
         <result column="database" jdbcType="VARCHAR" property="database"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="description" jdbcType="VARCHAR" property="description"/>
-        <result column="is_enable" jdbcType="INT" property="isEnable"/>
+        <result column="is_enable" jdbcType="INTEGER" property="isEnable"/>
     </resultMap>
 
     <select id="findByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">

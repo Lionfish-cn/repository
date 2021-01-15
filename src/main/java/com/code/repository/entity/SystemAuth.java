@@ -1,5 +1,6 @@
 package com.code.repository.entity;
 
+import com.code.repository.annotation.NotNull;
 import com.code.repository.entity.base.BaseEntity;
 import lombok.*;
 
@@ -16,12 +17,12 @@ import java.util.List;
 @NoArgsConstructor
 @ToString(callSuper = true)
 public class SystemAuth extends BaseEntity {
+    @NotNull
     private String name;
     private String description;
     private String authUrl;
     private String authPermission;
     private String authOperate;//edit|delete|add
-    private List<Customer> customers;
     private SystemRole roles;
     private Date createTime;
     private Date updateTime;

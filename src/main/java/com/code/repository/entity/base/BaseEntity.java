@@ -1,11 +1,13 @@
 package com.code.repository.entity.base;
 
+import com.code.repository.annotation.IDField;
 import com.code.repository.util.IDGenerator;
 import com.code.repository.util.StringUtil;
 
 import java.io.Serializable;
 
 public abstract class BaseEntity implements IBaseEntity,Serializable {
+    @IDField
     protected String id ;
 
     @Override

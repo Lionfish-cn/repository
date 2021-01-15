@@ -9,6 +9,8 @@ import net.sf.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class DBUtil {
@@ -142,6 +144,35 @@ public class DBUtil {
                 }
             });
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<String> getTables(Connection conn){
+        try{
+            List<String> tables = new ArrayList<>();
+            DatabaseMetaData metadata = conn.getMetaData();
+            ResultSet rs = metadata.getTables(conn.getCatalog(),null,"%",new String[]{"TABLE"});
+            while(rs.next()){
+                tables.add(rs.getString("TABLE_NAME"));
+            }
+            return tables;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getPrimaryKey(Connection conn,String table){
+        try{
+            String key = "";
+            DatabaseMetaData metadata = conn.getMetaData();
+            ResultSet rs = metadata.getPrimaryKeys(conn.getCatalog(),null,table);
+            if(rs.next()){
+                return rs.getString("COLUMN_NAME");
+            }
+        }catch(Exception e){
             e.printStackTrace();
         }
         return null;

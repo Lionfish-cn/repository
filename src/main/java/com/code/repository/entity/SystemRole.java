@@ -1,5 +1,6 @@
 package com.code.repository.entity;
 
+import com.code.repository.annotation.FieldUnique;
 import com.code.repository.entity.base.BaseEntity;
 import lombok.*;
 
@@ -15,6 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 @ToString(callSuper = true)
 public class SystemRole  extends BaseEntity {
+    @FieldUnique
     private String name;
     private String description;
     private Date createTime;

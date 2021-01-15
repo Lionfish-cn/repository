@@ -16,7 +16,7 @@ public class DateUtil {
 
     public static Date convertStringToDate(String d, String pattern) throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-        if (com.headyonder.dmp.util.StringUtil.isNotNull(d)) {
+        if (StringUtil.isNotNull(d)) {
             return sdf.parse(d);
         }
         return null;

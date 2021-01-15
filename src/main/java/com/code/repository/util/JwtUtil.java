@@ -19,11 +19,9 @@ public class JwtUtil {
      * @param userid
      * @return
      */
-    public static String generateToken(String userid, com.headyonder.dmp.entity.SecretKey key) {
+    public static String generateToken(String userid) {
         Map<String, Object> map = new HashMap<>();
         map.put("sub", userid);
-        txt = key.getTxt();
-        secret = key.getSecret();
         return generateToken(map);
     }
 

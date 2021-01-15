@@ -8,14 +8,14 @@
         <result column="auth_url" jdbcType="VARCHAR" property="auth_url"/>
         <result column="auth_permission" jdbcType="VARCHAR" property="authPermission"/>
         <result column="auth_operate" jdbcType="VARCHAR" property="authOperate"/>
-        <result column="create_time" jdbcType="timestamp" property="createTime"/>
-        <result column="update_time" jdbcType="timestamp" property="updateTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <association property="roles" column="s_role" javaType="com.code.repository.entity.SystemRole">
             <result column="s_role" jdbcType="VARCHAR" property="id"/>
             <result column="name" jdbcType="VARCHAR" property="name"/>
             <result column="description" jdbcType="VARCHAR" property="description"/>
-            <result column="update_time" jdbcType="timestamp" property="updateTime"/>
-            <result column="create_time" jdbcType="timestamp" property="createTime"/>
+            <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+            <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         </association>
     </resultMap>
     <select id="getUsers" resultMap="BaseResultMap" parameterType="java.lang.String">

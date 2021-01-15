@@ -40,7 +40,7 @@ public class LoginFilter implements Filter {
                 Boolean flag = JwtUtil.verifyToken(token.toString());
                 if (!flag) {
                     PrintWriter out = response.getWriter();
-                    out.write(ResponseUtil.filterResponseError(token.toString()));
+                    out.write(ResponseUtil.responseError(token.toString(),null));
                     out.flush();
                     out.close();
                     return;
